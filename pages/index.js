@@ -14,15 +14,7 @@ import { parseJsonStructure } from '../lib/jsonParser';
 import { generateZipFile } from '../lib/zipGenerator';
 import { Download, FolderTree, AlertCircle, CheckCircle2, Folder, File } from 'lucide-react';
 
-// parseJsonStructure is now imported from ../lib/jsonParser
-
-const generateZipFile = async (structure, jsonInput) => {
-  // Temporary implementation - replace with your actual function
-  // This is a placeholder that just shows an alert
-  alert('ZIP generation would happen here. Please implement the actual generateZipFile function in ../lib/zipGenerator.js');
-  console.log('Structure:', structure);
-  console.log('JSON Input:', jsonInput);
-};
+// Both parseJsonStructure and generateZipFile are now imported from their respective lib files
 
 const Home = () => {
   const [jsonInput, setJsonInput] = useState('');
