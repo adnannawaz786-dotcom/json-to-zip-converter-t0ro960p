@@ -10,62 +10,11 @@ import { Alert, AlertDescription } from '../components/ui/alert';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
 import { ScrollArea } from '../components/ui/scroll-area';
-// Remove these imports until the functions are properly exported
-// import { parseJsonStructure } from '../lib/jsonParser';
-// import { generateZipFile } from '../lib/zipGenerator';
+import { parseJsonStructure } from '../lib/jsonParser';
+// import { generateZipFile } from '../lib/zipGenerator'; // Still commented until zipGenerator is fixed
 import { Download, FolderTree, AlertCircle, CheckCircle2, Folder, File } from 'lucide-react';
 
-// Temporary placeholder functions until the actual ones are fixed
-const parseJsonStructure = (jsonData) => {
-  // Temporary implementation - replace with your actual function
-  const processNode = (obj, path = '') => {
-    const children = [];
-    let totalFiles = 0;
-    let totalFolders = 0;
-
-    Object.entries(obj).forEach(([key, value]) => {
-      const currentPath = path ? `${path}/${key}` : key;
-      
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        // It's a folder
-        const childResult = processNode(value, currentPath);
-        children.push({
-          name: key,
-          path: currentPath,
-          type: 'folder',
-          children: childResult.children
-        });
-        totalFolders += 1 + childResult.totalFolders;
-        totalFiles += childResult.totalFiles;
-      } else {
-        // It's a file
-        children.push({
-          name: key,
-          path: currentPath,
-          type: 'file',
-          size: typeof value === 'string' ? value.length : JSON.stringify(value).length
-        });
-        totalFiles += 1;
-      }
-    });
-
-    return { children, totalFiles, totalFolders };
-  };
-
-  const result = processNode(jsonData);
-  return {
-    tree: {
-      name: 'root',
-      path: '',
-      type: 'folder',
-      children: result.children
-    },
-    stats: {
-      totalFiles: result.totalFiles,
-      totalFolders: result.totalFolders
-    }
-  };
-};
+// parseJsonStructure is now imported from ../lib/jsonParser
 
 const generateZipFile = async (structure, jsonInput) => {
   // Temporary implementation - replace with your actual function
