@@ -10,9 +10,70 @@ import { Alert, AlertDescription } from '../components/ui/alert';
 import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
 import { ScrollArea } from '../components/ui/scroll-area';
-import { parseJsonStructure } from '../lib/jsonParser';
-import { generateZipFile } from '../lib/zipGenerator';
-import { Download, FileTree, AlertCircle, CheckCircle2, Folder, File } from 'lucide-react';
+// Remove these imports until the functions are properly exported
+// import { parseJsonStructure } from '../lib/jsonParser';
+// import { generateZipFile } from '../lib/zipGenerator';
+import { Download, FolderTree, AlertCircle, CheckCircle2, Folder, File } from 'lucide-react';
+
+// Temporary placeholder functions until the actual ones are fixed
+const parseJsonStructure = (jsonData) => {
+  // Temporary implementation - replace with your actual function
+  const processNode = (obj, path = '') => {
+    const children = [];
+    let totalFiles = 0;
+    let totalFolders = 0;
+
+    Object.entries(obj).forEach(([key, value]) => {
+      const currentPath = path ? `${path}/${key}` : key;
+      
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        // It's a folder
+        const childResult = processNode(value, currentPath);
+        children.push({
+          name: key,
+          path: currentPath,
+          type: 'folder',
+          children: childResult.children
+        });
+        totalFolders += 1 + childResult.totalFolders;
+        totalFiles += childResult.totalFiles;
+      } else {
+        // It's a file
+        children.push({
+          name: key,
+          path: currentPath,
+          type: 'file',
+          size: typeof value === 'string' ? value.length : JSON.stringify(value).length
+        });
+        totalFiles += 1;
+      }
+    });
+
+    return { children, totalFiles, totalFolders };
+  };
+
+  const result = processNode(jsonData);
+  return {
+    tree: {
+      name: 'root',
+      path: '',
+      type: 'folder',
+      children: result.children
+    },
+    stats: {
+      totalFiles: result.totalFiles,
+      totalFolders: result.totalFolders
+    }
+  };
+};
+
+const generateZipFile = async (structure, jsonInput) => {
+  // Temporary implementation - replace with your actual function
+  // This is a placeholder that just shows an alert
+  alert('ZIP generation would happen here. Please implement the actual generateZipFile function in ../lib/zipGenerator.js');
+  console.log('Structure:', structure);
+  console.log('JSON Input:', jsonInput);
+};
 
 const Home = () => {
   const [jsonInput, setJsonInput] = useState('');
@@ -152,7 +213,7 @@ const Home = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <FileTree className="h-5 w-5" />
+                  <FolderTree className="h-5 w-5" />
                   JSON Input
                 </CardTitle>
               </CardHeader>
@@ -223,7 +284,7 @@ const Home = () => {
                       exit={{ opacity: 0 }}
                       className="text-center py-12 text-gray-500"
                     >
-                      <FileTree className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                      <FolderTree className="h-12 w-12 mx-auto mb-4 opacity-50" />
                       <p>Parse JSON to see file structure preview</p>
                     </motion.div>
                   ) : (
