@@ -11,7 +11,7 @@ import { Badge } from '../components/ui/badge';
 import { Separator } from '../components/ui/separator';
 import { ScrollArea } from '../components/ui/scroll-area';
 import { parseJsonStructure } from '../lib/jsonParser';
-// import { generateZipFile } from '../lib/zipGenerator'; // Still commented until zipGenerator is fixed
+import { generateZipFile } from '../lib/zipGenerator';
 import { Download, FolderTree, AlertCircle, CheckCircle2, Folder, File } from 'lucide-react';
 
 // parseJsonStructure is now imported from ../lib/jsonParser
